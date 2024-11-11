@@ -1,0 +1,15 @@
+ Name                Version      License                              
+ beautifulsoup4      4.12.3       MIT License                          
+ boto3               1.35.54      Apache Software License              
+ botocore            1.35.54      Apache Software License              
+ certifi             2024.8.30    Mozilla Public License 2.0 (MPL 2.0) 
+ charset-normalizer  3.4.0        MIT License                          
+ idna                3.10         BSD License                          
+ jmespath            1.0.1        MIT License                          
+ python-dateutil     2.9.0.post0  Apache Software License; BSD License 
+ python-dotenv       1.0.1        BSD License                          
+ requests            2.32.3       Apache Software License              
+ s3transfer          0.10.3       Apache Software License              
+ six                 1.16.0       MIT License                          
+ soupsieve           2.6          MIT License                          
+ urllib3             2.2.3        MIT License                          

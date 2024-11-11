@@ -1,0 +1,8 @@
+ Name             Version      License                              
+ boto3            1.35.54      Apache Software License              
+ botocore         1.35.54      Apache Software License              
+ jmespath         1.0.1        MIT License                          
+ python-dateutil  2.9.0.post0  Apache Software License; BSD License 
+ s3transfer       0.10.3       Apache Software License              
+ six              1.16.0       MIT License                          
+ urllib3          2.2.3        MIT License                          
