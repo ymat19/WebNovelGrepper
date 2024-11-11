@@ -227,7 +227,7 @@ const App: React.FC = () => {
         {/* PortalでDialogContentをルートに移動 */}
         <Portal>
           <DialogContent
-            width="90vh"
+            width="80vw"
             height="90vh"
             position="fixed" // 画面全体に固定
             top="50%"
@@ -238,14 +238,15 @@ const App: React.FC = () => {
             zIndex="overlay" // Chakra UI の z-index のプリセット
             boxShadow="lg"
             borderRadius="md"
+            overflow={"auto"}
           >
             <DialogHeader>
-              <DialogTitle>本サイトについて </DialogTitle>
+              <DialogTitle>About</DialogTitle>
               <DialogCloseTrigger />
             </DialogHeader>
             <DialogBody>
               <Heading as="h1" size="2xl" mb={4}>
-                コンテンツの権利について
+                本サイトについて
               </Heading>
               <Text>
                 {config?.about?.split("\n").map((line, index) => (
