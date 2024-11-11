@@ -2,6 +2,7 @@ import { Box, Text, Link, VStack, Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useState } from "react";
+import HighlightedText from "./HighlightedText";
 
 export interface SearchResult {
   body: string;
@@ -14,11 +15,13 @@ export interface SearchResult {
 
 interface SearchResultsProps {
   results: SearchResult[];
+  query: string;
   license_notice: string;
 }
 
 export const SearchResults: React.FC<SearchResultsProps> = ({
   results,
+  query,
   license_notice,
 }) => {
   const [isAscending, setIsAscending] = useState(true);
@@ -60,7 +63,9 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           セリフのみ
         </Checkbox>
       </Box>
-      <Text color="#2C3E50" textStyle={"xs"}>{license_notice}</Text>
+      <Text color="#2C3E50" textStyle={"xs"}>
+        {license_notice}
+      </Text>
       <br />
       <Text color="#2C3E50">{results.length}件見つかりました</Text>
       <VStack align="stretch">
@@ -83,9 +88,12 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 <br />
                 {result.number}: {result.line}行
               </Text>
-              <Text mt={2} color="#4A4A4A">
-                {result.body}
-              </Text>
+              <HighlightedText
+                text={result.body}
+                highlights={query.split(",")}
+                mt={2}
+                color="#4A4A4A"
+              ></HighlightedText>
               <Link color="#8098FF" href={result.url} mt={2}>
                 本編へ
               </Link>

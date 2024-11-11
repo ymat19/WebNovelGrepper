@@ -59,6 +59,7 @@ const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [config, setConfig] = useState<ParsedConfig | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ const App: React.FC = () => {
     parser: WorkUrlParser
   ): Promise<Record[]> => {
     const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
+    setQuery(commaSeparatedQuery);
 
     const hash = CryptoJS.SHA256(commaSeparatedQuery).toString(
       CryptoJS.enc.Hex
@@ -185,6 +187,7 @@ const App: React.FC = () => {
         <SearchForm onSearch={handleSearch} />
         <SearchResults
           results={results}
+          query={query}
           license_notice={config?.license_notice || ""}
         />
       </Container>
