@@ -60,7 +60,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           セリフのみ
         </Checkbox>
       </Box>
-      <Text color="#2C3E50">{license_notice}</Text>
+      <Text color="#2C3E50" textStyle={"xs"}>{license_notice}</Text>
       <br />
       <Text color="#2C3E50">{results.length}件見つかりました</Text>
       <VStack align="stretch">
