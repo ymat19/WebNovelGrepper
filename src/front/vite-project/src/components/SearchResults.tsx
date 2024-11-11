@@ -1,4 +1,4 @@
-import { Box, Text, Link, VStack, Button, HStack } from "@chakra-ui/react";
+import { Box, Text, Link, VStack, Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useState } from "react";
@@ -37,32 +37,30 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
   return (
     <>
-      <HStack justifyContent="space-between">
-        <Box display="flex" alignItems="center" gap="2rem">
-          <Button
-            _hover={{ bg: "#98A5B3" }}
-            color="#2C3E50"
-            bg="#D4DDE4"
-            borderColor="#98A5B3"
-            onClick={() => setIsAscending(!isAscending)}
-          >
-            {isAscending ? "古い順　" : "新しい順"}
-            {isAscending ? <FaArrowUp /> : <FaArrowDown />}
-          </Button>
-          <Checkbox
-            size="lg"
-            color="#2C3E50"
-            borderColor="#98A5B3"
-            checked={isDialogueOnly}
-            onCheckedChange={(details) =>
-              setIsDialogueOnly(Boolean(details.checked.valueOf()))
-            }
-          >
-            セリフのみ
-          </Checkbox>
-        </Box>
-        <Text color="#2C3E50">{license_notice}</Text>
-      </HStack>
+      <Box display="flex" alignItems="center" gap="2rem">
+        <Button
+          _hover={{ bg: "#98A5B3" }}
+          color="#2C3E50"
+          bg="#D4DDE4"
+          borderColor="#98A5B3"
+          onClick={() => setIsAscending(!isAscending)}
+        >
+          {isAscending ? "古い順　" : "新しい順"}
+          {isAscending ? <FaArrowUp /> : <FaArrowDown />}
+        </Button>
+        <Checkbox
+          size="lg"
+          color="#2C3E50"
+          borderColor="#98A5B3"
+          checked={isDialogueOnly}
+          onCheckedChange={(details) =>
+            setIsDialogueOnly(Boolean(details.checked.valueOf()))
+          }
+        >
+          セリフのみ
+        </Checkbox>
+      </Box>
+      <Text color="#2C3E50">{license_notice}</Text>
       <br />
       <Text color="#2C3E50">{results.length}件見つかりました</Text>
       <VStack align="stretch">
@@ -88,17 +86,9 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
               <Text mt={2} color="#4A4A4A">
                 {result.body}
               </Text>
-              <HStack>
-                <Text mt={2} color="#6E4A34">
-                  本編:
-                </Text>
-                <Link color="#8098FF" href={result.url} mt={2}>
-                  {result.url.split("#p")[0]}
-                </Link>
-                <Text mt={2} color="#6E4A34">
-                  より
-                </Text>
-              </HStack>
+              <Link color="#8098FF" href={result.url} mt={2}>
+                本編へ
+              </Link>
             </Box>
           ))}
       </VStack>
