@@ -11,6 +11,7 @@ import {
   DialogTrigger,
   Flex,
   Heading,
+  Link,
   Portal,
   Spinner,
   Text,
@@ -28,13 +29,8 @@ interface WorkUrlParser {
 }
 
 // stateで持っておく設定値
-interface LoadedConfig {
-  backendUrl: string;
+interface ParsedConfig extends FrontConfig {
   workUrlParsers: WorkUrlParser[];
-  title: string;
-  license_notice: string;
-  about: string;
-  technology_about: string;
 }
 
 // フロントエンドの設定のjson定義
@@ -45,6 +41,8 @@ interface FrontConfig {
   license_notice: string;
   about: string;
   technology_about: string;
+  contact_email: string;
+  contact_x: string;
 }
 
 // バックエンドから返ってくるレスポンスの型
@@ -59,7 +57,7 @@ interface Record {
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [config, setConfig] = useState<LoadedConfig | null>(null);
+  const [config, setConfig] = useState<ParsedConfig | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -72,7 +70,7 @@ const App: React.FC = () => {
         }
         const frontConfig: FrontConfig = await response.json();
         setConfig({
-          backendUrl: frontConfig.api_endpoint_url,
+          ...frontConfig,
           workUrlParsers: frontConfig.work_urls.split(",").map((url) => {
             return {
               workId: url.split("/").reverse()[2],
@@ -80,10 +78,6 @@ const App: React.FC = () => {
                 url.split("/episodes/")[0] + `/episodes/${episodeId}`,
             };
           }),
-          title: frontConfig.title,
-          license_notice: frontConfig.license_notice,
-          about: frontConfig.about,
-          technology_about: frontConfig.technology_about,
         });
 
         document.title = frontConfig.title;
@@ -131,7 +125,7 @@ const App: React.FC = () => {
 
     // キャッシュがない場合 クエリを投げる
     const queryResponse = await fetch(
-      `${config?.backendUrl}?work_id=${parser.workId}&words=${commaSeparatedQuery}`
+      `${config?.api_endpoint_url}?work_id=${parser.workId}&words=${commaSeparatedQuery}`
     );
 
     if (queryResponse.ok) {
@@ -267,6 +261,23 @@ const App: React.FC = () => {
                     <br />
                   </span>
                 ))}
+              </Text>
+              <Heading as="h1" size="2xl" mb={4}>
+                お問合せ
+              </Heading>
+              <Text>
+                問題、要望、感想などありましたら、以下までご連絡ください。
+              </Text>
+              <br />
+              <Text>Email: {config?.contact_email}</Text>
+              <Text>
+                X:{" "}
+                <Link
+                  href={`https://x.com/${config?.contact_x.slice(1)}`}
+                  color={"black"}
+                >
+                  {config?.contact_x}
+                </Link>
               </Text>
             </DialogBody>
           </DialogContent>

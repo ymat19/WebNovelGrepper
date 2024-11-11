@@ -14,7 +14,7 @@ variable "table_name" {
 }
 
 variable "path" {
-  description = "endpoint path"
+  description = "api endpoint path"
   type        = string
 }
 
@@ -24,21 +24,31 @@ variable "title" {
 }
 
 variable "about" {
-  description = "endpoint path"
+  description = "about this page"
   type        = string
 }
 
 variable "license_notice" {
-  description = "web page title"
+  description = "license notice"
   type        = string
 }
 
 variable "technology_about" {
-  description = "web page title"
+  description = "about technology"
   type        = string
 }
 
 variable "site_prefix" {
-  description = "web page title"
+  description = "bucket name prefix"
+  type        = string
+}
+
+variable "contact_email" {
+  description = "email address"
+  type        = string
+}
+
+variable "contact_x" {
+  description = "x account"
   type        = string
 }

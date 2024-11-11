@@ -218,6 +218,8 @@ resource "aws_s3_object" "front_config" {
     about            = var.about
     license_notice   = var.license_notice
     technology_about = var.technology_about
+    contact_email    = var.contact_email
+    contact_x        = var.contact_x
   })
   content_type = "application/json"
 }
