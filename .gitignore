@@ -1,0 +1,119 @@
+# 一般的な設定
+.DS_Store
+Thumbs.db
+*.log
+*.env
+.env.local
+
+# Node.js (frontend)
+src/frontend/node_modules/
+src/frontend/build/
+src/frontend/.env
+src/frontend/.cache/
+
+# Python (backend, batch)
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/.env
+
+# SQLite Database
+db/*.db
+db/*.db-journal
+
+# AWS Lambda deployment packages
+**/*.zip
+**/package/
+
+# Pytest and test artifacts
+**/.pytest_cache/
+**/.coverage
+**/htmlcov/
+**/test_results/
+
+# VSCode and editor-specific files
+.vscode/
+.idea/
+*.swp
+
+# S3 cache or temporary files
+s3_cache/
+
+# Log files and coverage reports
+logs/
+*.log
+coverage/
+
+# S3 stored databases (temporary backups)
+db_backups/
+
+# https://github.com/github/gitignore/blob/main/Terraform.gitignore
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data, such as
+# password, private keys, and other secrets. These should not be part of version 
+# control as they are data points which are potentially sensitive and subject 
+# to change depending on the environment.
+*.tfvars
+*.tfvars.json
+
+**/backend.tf
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore transient lock info files created by terraform apply
+.terraform.tfstate.lock.info
+
+# Include override files you do wish to add to version control using negated pattern
+# !example_override.tf
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+
+# created by vite
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+**/front_config.json
