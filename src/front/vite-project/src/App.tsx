@@ -272,7 +272,7 @@ const App: React.FC = () => {
                 お問合せ
               </Heading>
               <Text>
-                問題、要望、感想などありましたら、以下までご連絡ください。
+                問題、要望、ご意見などありましたら、以下までご連絡ください。
               </Text>
               <br />
               <Text>Email: {config?.contact_email}</Text>

@@ -7,7 +7,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, onClickAbout }) => (
   <Box bg="#A3BCD8" color="white" p={4}>
-    <HStack justifyContent="space-between" width="100%" paddingRight={8}>
+    <HStack justifyContent="space-between" width="100%" paddingRight={4}>
       <Text fontSize="xl" fontWeight="bold" color="#2C3E50">
         {title}
       </Text>
