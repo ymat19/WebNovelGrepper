@@ -108,8 +108,11 @@ const App: React.FC = () => {
         );
         if (cacheResponse.ok) {
           return await cacheResponse.json();
-        } else if (cacheResponse.status === 404) {
-          // キャッシュが存在しない
+        } else if (
+          cacheResponse.status === 404 ||
+          cacheResponse.status === 403
+        ) {
+          // キャッシュが存在しない 本来404だが、Cloud Frontが403を返す
           return [];
         } else {
           throw new Error(`Failed to fetch: ${cacheResponse.statusText}`);

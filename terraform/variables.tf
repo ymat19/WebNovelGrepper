@@ -38,11 +38,6 @@ variable "technology_about" {
   type        = string
 }
 
-variable "site_prefix" {
-  description = "bucket name prefix"
-  type        = string
-}
-
 variable "contact_email" {
   description = "email address"
   type        = string

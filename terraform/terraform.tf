@@ -88,7 +88,7 @@ resource "aws_lambda_function" "batch" {
     variables = {
       WORK_URLS   = var.work_urls
       TABLE_NAME  = var.table_name
-      BUCKET_NAME = "${var.site_prefix}${data.aws_caller_identity.current.account_id}"
+      BUCKET_NAME = aws_s3_bucket.vite_project.bucket
     }
   }
 }
@@ -147,7 +147,7 @@ resource "aws_lambda_function" "backend" {
   environment {
     variables = {
       TABLE_NAME  = var.table_name
-      BUCKET_NAME = "${var.site_prefix}${data.aws_caller_identity.current.account_id}"
+      BUCKET_NAME = aws_s3_bucket.vite_project.bucket
     }
   }
 }
@@ -205,7 +205,7 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "vite_project" {
-  bucket = "${var.site_prefix}${data.aws_caller_identity.current.account_id}"
+  bucket = "vite-project-${data.aws_caller_identity.current.account_id}"
 }
 
 resource "aws_s3_object" "front_config" {
@@ -227,38 +227,79 @@ resource "aws_s3_object" "front_config" {
 resource "aws_s3_bucket_public_access_block" "vite_project" {
   bucket = aws_s3_bucket.vite_project.bucket
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+data "aws_iam_policy_document" "vite_project" {
+  statement {
+    sid    = "Allow CloudFront"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.vite_project.iam_arn]
+    }
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.vite_project.arn}/*"
+    ]
+  }
 }
 
 resource "aws_s3_bucket_policy" "vite_project" {
-  bucket     = aws_s3_bucket.vite_project.id
-  depends_on = [aws_iam_role.lambda_role]
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.vite_project.arn}/*"
-      },
-      {
-        Sid    = "AllowLambdaPutObject"
-        Effect = "Allow"
-        Principal = {
-          AWS = aws_iam_role.lambda_role.arn
-        }
-        Action   = "s3:PutObject"
-        Resource = "${aws_s3_bucket.vite_project.arn}/*"
-      }
-    ]
-  })
+  bucket = aws_s3_bucket.vite_project.id
+  policy = data.aws_iam_policy_document.vite_project.json
 }
+
+resource "aws_cloudfront_distribution" "vite_project" {
+  origin {
+    domain_name = aws_s3_bucket.vite_project.bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.vite_project.id
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.vite_project.cloudfront_access_identity_path
+    }
+  }
+
+  enabled = true
+
+  default_root_object = "index.html"
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = aws_s3_bucket.vite_project.id
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "whitelist"
+      locations        = ["JP"]
+    }
+  }
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+resource "aws_cloudfront_origin_access_identity" "vite_project" {}
 
 # null_resource to build front
 resource "null_resource" "front" {
@@ -287,10 +328,14 @@ resource "aws_s3_object" "vite_project" {
   etag         = filemd5(each.value.source_path)
 }
 
-resource "aws_s3_bucket_website_configuration" "vite_project" {
+resource "aws_s3_bucket_cors_configuration" "vite_project" {
   bucket = aws_s3_bucket.vite_project.id
-  index_document {
-    suffix = "index.html"
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["*"] # 必要に応じて特定のオリジンを指定
+    max_age_seconds = 3000
   }
 }
 
@@ -310,7 +355,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "vite_project" {
   }
 }
 
-output "s3_website_url" {
-  value       = aws_s3_bucket_website_configuration.vite_project.website_endpoint
-  description = "S3バケットの静的ホスティングURL"
+output "cloudfront_url" {
+  value       = "https://${aws_cloudfront_distribution.vite_project.domain_name}"
+  description = "The CloudFront distribution URL for the static website"
 }
