@@ -47,9 +47,13 @@ export const RequestDialog: React.FC<RequestDialogProps> = ({ endpoint }) => {
       <ToastContainer />
       <DialogRoot placement="center" motionPreset="slide-in-bottom">
         <DialogTrigger asChild>
-          <Text fontSize={"xs"} color="#8098FF">
-            {" "}
-            ３秒で遅れる匿名要望フォーム{" "}
+          <Text
+            cursor="pointer"
+            fontSize={"xs"}
+            color="#8098FF"
+            textDecoration="underline"
+          >
+            ３秒で遅れる匿名要望フォーム
           </Text>
         </DialogTrigger>
         <DialogContent
