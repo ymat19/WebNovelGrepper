@@ -24,7 +24,12 @@ def lambda_handler(event, context):
     query_params: dict = event.get("queryStringParameters", {})
     words_string: str = query_params.get("words", "")
     work_id: int = int(query_params.get("work_id", 0))
+    request: str = query_params.get("request", "")
 
+    if request:
+        # 要望ならログはいて終わり
+        print(f"Request: {request}")
+        return {"statusCode": 200, "body": "OK"}
     if not words_string:
         return {"statusCode": 400, "body": "words is required"}
     if not work_id:

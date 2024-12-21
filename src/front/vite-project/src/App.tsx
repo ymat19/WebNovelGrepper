@@ -20,6 +20,7 @@ import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
 import { SearchResults, SearchResult } from "./components/SearchResults";
+import { RequestDialog } from "./components/RequestDialog";
 import * as CryptoJS from "crypto-js";
 
 // 作品URLを作ったりする
@@ -193,6 +194,7 @@ const App: React.FC = () => {
           query={query}
           license_notice={config?.license_notice || ""}
         />
+        <RequestDialog endpoint={`${config?.api_endpoint_url}`} ></RequestDialog>
       </Container>
       {isLoading && (
         <Flex
