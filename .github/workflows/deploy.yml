@@ -28,9 +28,15 @@ jobs:
         working-directory: src/front/vite-project
         run: npm run build
 
-      # GitHub Pagesにデプロイ
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: src/front/vite-project/dist
+          # Upload dist folder
+          path: './src/front/vite-project/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
