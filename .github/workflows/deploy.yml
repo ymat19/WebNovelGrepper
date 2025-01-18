@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.jsをセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # フロントエンドプロジェクトに移動し、依存関係をインストール
+      - name: Install dependencies
+        working-directory: src/front/vite-project
+        run: npm install
+
+      # フロントエンドプロジェクトをビルド
+      - name: Build project
+        working-directory: src/front/vite-project
+        run: npm run build --mode gh-pages
+
+      # GitHub Pagesにデプロイ
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: src/front/vite-project/dist
