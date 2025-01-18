@@ -13,16 +13,9 @@ EOT
 technology_about = <<EOT
 当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。
 
-デザインおよびUI関連
-
 - React
 - chakra-ui
 - emotion
 - react-icons
 
-ビルドおよび開発環境
-
-- Vite
-- TypeScript
-- ESLint
 EOT

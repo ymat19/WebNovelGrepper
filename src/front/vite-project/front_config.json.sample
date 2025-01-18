@@ -4,7 +4,7 @@
 	"contact_email": "hoge@hoge",
 	"contact_x": "@hoge",
 	"license_notice": "著作注釈",
-	"technology_about": "当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。これらの素晴らしいプロジェクトに深く感謝いたします。\n\nデザインおよびUI関連\n\n- React\n- chakra-ui\n- emotion\n- react-icons\n\nビルドおよび開発環境\n\n- Vite\n- TypeScript\n- ESLint\n",
+	"technology_about": "当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。これらの素晴らしいプロジェクトに深く感謝いたします。\n\n- React\n- chakra-ui\n- emotion\n- react-iconsn\n",
 	"title": "website_title",
 	"work_urls": "作品URL"
 }
