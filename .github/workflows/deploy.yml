@@ -26,7 +26,7 @@ jobs:
       # フロントエンドプロジェクトをビルド
       - name: Build project
         working-directory: src/front/vite-project
-        run: npm run build --mode demo
+        run: npm run build --mode fuga
 
       # GitHub Pagesにデプロイ
       - name: Deploy to GitHub Pages

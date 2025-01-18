@@ -8,6 +8,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tsconfigPaths()],
-    base: env.VITE_PLATFORM === 'gh-pages' ? '/WebNovelGrepper/' : '/', // モードで切り替え
+    base: 'hoge', // モードで切り替え
   };
 });
