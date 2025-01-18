@@ -1,0 +1,10 @@
+{
+	"about": "当サイトについて",
+	"api_endpoint_url": "api_gateway_endpoint",
+	"contact_email": "hoge@hoge",
+	"contact_x": "@hoge",
+	"license_notice": "著作注釈",
+	"technology_about": "当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。これらの素晴らしいプロジェクトに深く感謝いたします。\n\n- React\n- chakra-ui\n- emotion\n- react-iconsn\n",
+	"title": "website_title",
+	"work_urls": "作品URL"
+}

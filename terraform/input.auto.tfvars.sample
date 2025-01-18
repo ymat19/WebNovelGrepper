@@ -1,0 +1,21 @@
+deploy_role_arn = "api_gateway_endpoint"
+work_urls       = "作品URL"
+table_name      = "dynamo_table_name"
+path            = "api_gateway_path"
+title           = "website_title"
+license_notice  = "著作注釈"
+contact_email   = "hoge@hoge"
+contact_x       = "@hoge"
+about           = <<EOT
+等サイトについて
+EOT
+
+technology_about = <<EOT
+当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。
+
+- React
+- chakra-ui
+- emotion
+- react-icons
+
+EOT
