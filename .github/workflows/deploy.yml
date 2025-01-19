@@ -37,7 +37,7 @@ jobs:
         working-directory: src/front/vite-project
         run: npm install
       - name: Copy DemoData
-        run: cp ./.github/demoData/front_config.json.demo ./src/front/vite-project/public/front_config.json
+        run: mkdir ./src/front/vite-project/public && cp ./.github/demoData/front_config.json.demo ./src/front/vite-project/public/front_config.json
       - name: Build project
         working-directory: src/front/vite-project
         run: npm run build -- --mode demo --base /$(basename ${{ github.repository }})/
