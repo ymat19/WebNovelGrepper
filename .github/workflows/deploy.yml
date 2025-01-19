@@ -36,10 +36,8 @@ jobs:
       - name: Install dependencies
         working-directory: src/front/vite-project
         run: npm install
-      - name: ls
-        run: ls -a
       - name: Copy DemoData
-        run: cp ./.github/workflows/front_config.json.demo ./src/front/vite-project/front_config.json
+        run: cp ./.github/workflows/demoData/front_config.json.demo ./src/front/vite-project/front_config.json
       - name: Build project
         working-directory: src/front/vite-project
         run: npm run build -- --mode demo --base /$(basename ${{ github.repository }})/
