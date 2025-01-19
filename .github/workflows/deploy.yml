@@ -38,7 +38,7 @@ jobs:
         run: npm install
       - name: Build project
         working-directory: src/front/vite-project
-        run: npm run build -- --mode demo
+        run: npm run build -- --mode demo --base /$(basename ${{ github.repository }})/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
