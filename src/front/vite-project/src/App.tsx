@@ -51,8 +51,6 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);
-  
-  console.log(import.meta.env.MODE);
 
   useEffect(() => {
     const loadConfig = async () => {
