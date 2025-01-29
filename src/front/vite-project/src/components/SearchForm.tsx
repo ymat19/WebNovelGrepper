@@ -20,6 +20,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         <Input
           placeholder="検索したい単語を入力してください"
           value={query}
+          fontSize={16}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e: React.KeyboardEvent) =>
             !e.nativeEvent.isComposing && e.key === "Enter" && handleSearch()
