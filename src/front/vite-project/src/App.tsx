@@ -55,7 +55,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const response = await fetch("front_config.json");
+        const response = await fetch(`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/front_config.json`);
         if (!response.ok) {
           throw new Error(`Failed to fetch: ${response.statusText}`);
         }
