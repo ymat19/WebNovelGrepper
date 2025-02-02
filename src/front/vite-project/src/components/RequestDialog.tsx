@@ -70,7 +70,7 @@ export const RequestDialog: React.FC<RequestDialogProps> = ({ endpoint }) => {
             <Text fontSize={"xs"} marginBottom={"16px"}>
               {import.meta.env.MODE === "demo" && (
                 <>
-                  "※デモ環境では送信されません"
+                  ※デモ環境では送信されません
                   <br />
                 </>
               )}
