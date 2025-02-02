@@ -60,6 +60,7 @@ const App: React.FC = () => {
 
       const workUrlParser = config.workUrlParsers[0];
       const records = await getRecords(commaSeparatedQuery, workUrlParser, config);
+      const padding = 2;
       const results: SearchResult[] = records.map((record) => {
         return {
           body: record.body,
@@ -68,7 +69,7 @@ const App: React.FC = () => {
           subtitle: record.sub_title,
           url:
             workUrlParser.getEpisodeUrl(record.episode_id) +
-            `#p${record.line}`,
+            `#p${record.line < padding ? record.line : record.line - padding}`,
           episodeId: BigInt(record.episode_id),
         };
       });
