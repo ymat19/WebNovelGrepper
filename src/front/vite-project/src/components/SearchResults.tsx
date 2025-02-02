@@ -1,6 +1,7 @@
 import { Box, Text, Link, VStack, Button } from "@chakra-ui/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { LuExternalLink } from "react-icons/lu"
 import { useState } from "react";
 import HighlightedText from "./HighlightedText";
 
@@ -94,8 +95,8 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 mt={2}
                 color="#4A4A4A"
               ></HighlightedText>
-              <Link color="#8098FF" href={result.url} mt={2}>
-                本編へ
+              <Link color="#8098FF" href={result.url} mt={2} target="_brank">
+                本編へ <LuExternalLink />
               </Link>
             </Box>
           ))}
