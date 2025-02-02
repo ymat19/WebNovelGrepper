@@ -10,40 +10,8 @@ import SearchForm from "./components/SearchForm";
 import { SearchResults, SearchResult } from "./components/SearchResults";
 import { RequestDialog } from "./components/RequestDialog";
 import { AboutDialog } from "./components/AboutDialog";
-import * as CryptoJS from "crypto-js";
-
-// 作品URLを作ったりする
-interface WorkUrlParser {
-  workId: string;
-  getEpisodeUrl: (episodeId: string) => string;
-}
-
-// stateで持っておく設定値
-interface ParsedConfig extends FrontConfig {
-  workUrlParsers: WorkUrlParser[];
-}
-
-// フロントエンドの設定のjson定義
-interface FrontConfig {
-  api_endpoint_url: string;
-  work_urls: string;
-  title: string;
-  license_notice: string;
-  about: string;
-  technology_about: string;
-  contact_email: string;
-  contact_x: string;
-}
-
-// バックエンドから返ってくるレスポンスの型
-interface Record {
-  work_id: string;
-  sub_title: string;
-  number: string;
-  episode_id: string;
-  line: number;
-  body: string;
-}
+import { FrontConfig, ParsedConfig } from "./types";
+import { getRecords } from "./services/recordService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -79,65 +47,6 @@ const App: React.FC = () => {
     loadConfig();
   }, []);
 
-  const getRecords = async (
-    query: string,
-    parser: WorkUrlParser
-  ): Promise<Record[]> => {
-    const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
-    setQuery(commaSeparatedQuery);
-
-    const hash = CryptoJS.SHA256(commaSeparatedQuery).toString(
-      CryptoJS.enc.Hex
-    );
-
-    // キャッシュ取得
-    const getCache = async (hash: string): Promise<[boolean, Record[]]> => {
-      try {
-        const cacheResponse = await fetch(
-          `cache/${parser.workId}/${hash}.json`
-        );
-        if (cacheResponse.ok) {
-          return [true, await cacheResponse.json()];
-        } else if (
-          cacheResponse.status === 404 ||
-          cacheResponse.status === 403
-        ) {
-          // キャッシュが存在しない 本来404だが、Cloud Frontが403を返す
-          return [false, []];
-        } else {
-          throw new Error(`Failed to fetch: ${cacheResponse.statusText}`);
-        }
-      } catch (err) {
-        // ローカルデバッグだと別ファイルをとってきて SyntaxError
-        if (err instanceof SyntaxError) return [false, []];
-        throw err;
-      }
-    };
-
-    // 最初にキャッシュチェック あれば終わり
-    const [hit, cache] = await getCache(hash);
-    if (hit) return cache;
-
-    // キャッシュがない場合 クエリを投げる
-    const queryResponse = await fetch(
-      `${config?.api_endpoint_url}?work_id=${parser.workId}&words=${commaSeparatedQuery}`
-    );
-
-    if (queryResponse.ok) {
-      return await queryResponse.json();
-    } else if (queryResponse.status === 503) {
-      // 503系はタイムアウトだが、lambdaは走りっぱなしなので、リトライでキャッシュを回収しに行く
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      for (const _ of Array(10).keys()) {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        const [hit, cache] = await getCache(hash);
-        if (hit) return cache;
-      }
-    }
-
-    // リトライしてもダメだった場合
-    return [];
-  };
 
   const handleSearch = async (query: string) => {
     try {
@@ -146,8 +55,11 @@ const App: React.FC = () => {
       }
       setIsLoading(true);
 
+      const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
+      setQuery(commaSeparatedQuery);
+
       const workUrlParser = config.workUrlParsers[0];
-      const records = await getRecords(query, workUrlParser);
+      const records = await getRecords(commaSeparatedQuery, workUrlParser, config);
       const padding = 2;
       const results: SearchResult[] = records.map((record) => {
         return {

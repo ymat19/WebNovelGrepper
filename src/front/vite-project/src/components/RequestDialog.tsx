@@ -68,6 +68,12 @@ export const RequestDialog: React.FC<RequestDialogProps> = ({ endpoint }) => {
           </DialogHeader>
           <DialogBody>
             <Text fontSize={"xs"} marginBottom={"16px"}>
+              {import.meta.env.MODE === "demo" && (
+                <>
+                  ※デモ環境では送信されません
+                  <br />
+                </>
+              )}
               「こんな機能が欲しい！ここが使いにくい！」など教えていただきたいです！
               <br />
               メッセージは雑に、呟き感覚で大丈夫です。匿名で送信されます。

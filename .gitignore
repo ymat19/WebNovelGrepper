@@ -117,3 +117,7 @@ dist-ssr
 *.sw?
 
 **/front_config.json
+!.github/demoData/front_config.json
+
+**/records.json
+!.github/demoData/records.json
