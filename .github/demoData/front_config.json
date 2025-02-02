@@ -3,8 +3,8 @@
 	"api_endpoint_url": "none",
 	"contact_email": "none",
 	"contact_x": "none",
-	"license_notice": "著作注釈",
+	"license_notice": "著作注釈: 検索結果は全てエリファス１８１０氏による邦訳の引用です",
 	"technology_about": "当サイトのフロントエンドは、以下のオープンソースソフトウェア（OSS）によって支えられています。これらの素晴らしいプロジェクトに深く感謝いたします。\n\n- React\n- chakra-ui\n- emotion\n- react-iconsn\n",
-	"title": "デモページ",
-	"work_urls": "none"
+	"title": "論語検索(デモページ)",
+	"work_urls": "https://kakuyomu.jp/works/16818093089128839538/episodes/16818093089128917556"
 }

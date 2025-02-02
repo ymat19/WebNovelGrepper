@@ -86,7 +86,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
               <Text fontWeight="bold" color="#6E4A34">
                 {result.subtitle}
                 <br />
-                {result.number && `${result.number}:`} {result.line}行
+                {result.number && `${result.number}: `}{result.line}行
               </Text>
               <HighlightedText
                 text={result.body}
