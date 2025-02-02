@@ -4,9 +4,9 @@ import * as CryptoJS from "crypto-js";
 const getRecordsFromStub = async (
   commaSeparatedQuery: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  parser: WorkUrlParser,
+  _parser: WorkUrlParser,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  config: FrontConfig
+  _config: FrontConfig
 ): Promise<Record[]> => {
   const queries = commaSeparatedQuery.split(",");
 
