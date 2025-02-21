@@ -44,8 +44,10 @@ const getRecordsFromAWS = async (
         throw new Error(`Failed to fetch: ${cacheResponse.statusText}`);
       }
     } catch (err) {
-      // ローカルデバッグだと別ファイルをとってきて SyntaxError
-      if (err instanceof SyntaxError) return [false, []];
+      // ローカルデバッグだとエラーのhtmlが返ってきてSyntaxError
+      // Safariだとinstanceofがfalseになる
+      const errObj = err as Error;
+      if (err instanceof SyntaxError || errObj.name === "SyntaxError") return [false, []];
       throw err;
     }
   };
