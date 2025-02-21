@@ -45,6 +45,7 @@ const getRecordsFromAWS = async (
       }
     } catch (err) {
       // ローカルデバッグだとエラーのhtmlが返ってきてSyntaxError
+      // Safariだとinstanceofがfalseになる
       const errObj = err as Error;
       if (err instanceof SyntaxError || errObj.name === "SyntaxError") return [false, []];
       throw err;
