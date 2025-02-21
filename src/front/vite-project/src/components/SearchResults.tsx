@@ -56,6 +56,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           size="lg"
           color="#2C3E50"
           borderColor="#98A5B3"
+          variant={"solid"}
           checked={isDialogueOnly}
           onCheckedChange={(details) =>
             setIsDialogueOnly(Boolean(details.checked.valueOf()))
