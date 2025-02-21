@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
 import { SearchResults, SearchResult } from "./components/SearchResults";
+import { RequestDialog } from "./components/RequestDialog";
 import { AboutDialog } from "./components/AboutDialog";
 import { FrontConfig, ParsedConfig } from "./types";
 import { getRecords } from "./services/recordService";
@@ -94,6 +95,7 @@ const App: React.FC = () => {
           query={query}
           license_notice={config?.license_notice || ""}
         />
+        <RequestDialog endpoint={`${config?.api_endpoint_url}`} ></RequestDialog>
       </Container>
       {isLoading && (
         <Flex
@@ -115,8 +117,7 @@ const App: React.FC = () => {
         about={config?.about || ""}
         technology_about={config?.technology_about || ""}
         contact_email={config?.contact_email || ""}
-        contact_x={config?.contact_x || ""}
-        endpoint={config?.api_endpoint_url || ""}>
+        contact_x={config?.contact_x || ""}>
       </AboutDialog>
     </Box>
   );

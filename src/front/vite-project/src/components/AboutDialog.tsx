@@ -12,7 +12,6 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { RequestDialog } from "./RequestDialog";
 
 interface AboutDialogProps {
   about: string;
@@ -20,7 +19,6 @@ interface AboutDialogProps {
   contact_email: string;
   contact_x: string;
   buttonRef: React.RefObject<HTMLButtonElement>;
-  endpoint: string;
 }
 
 export const AboutDialog: React.FC<AboutDialogProps> = ({
@@ -29,7 +27,6 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
   contact_email,
   contact_x,
   buttonRef,
-  endpoint
 }) => {
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
@@ -99,7 +96,6 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
                 {contact_x}
               </Link>
             </Text>
-            {endpoint && <RequestDialog endpoint={endpoint}></RequestDialog>}
           </DialogBody>
         </DialogContent>
       </Portal>
