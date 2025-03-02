@@ -66,14 +66,12 @@ jobs:
         run: mkdir ./src/front/vite-project/public && cp ./.github/demoData/* ./src/front/vite-project/public/
       - name: Run tests
         working-directory: src/front/vite-project
-        run: npm run test
+        run: npm run test -- --mode demo --base /$(basename ${{ github.repository }})/
       - name: Build project
         working-directory: src/front/vite-project
         run: npm run build -- --mode demo --base /$(basename ${{ github.repository }})/
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: front-artifact
           path: './src/front/vite-project/dist'
@@ -86,9 +84,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: front-artifact
+          path: './src/front/vite-project/dist'
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
           path: './src/front/vite-project/dist'
       - name: Deploy to GitHub Pages
         id: deployment
