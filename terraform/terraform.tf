@@ -61,7 +61,8 @@ resource "null_resource" "batch" {
     always_run = timestamp()
   }
   provisioner "local-exec" {
-    command = "pip install -r ../src/batch/requirements.txt -t ../src/batch/package && cp ../src/batch/lambda_function.py ../src/batch/package"
+    working_dir = "../src/batch"
+    command = "pip install -r requirements.txt -t packages && cp lambda_function.py packages"
   }
 }
 
@@ -69,7 +70,7 @@ resource "null_resource" "batch" {
 data "archive_file" "batch" {
   depends_on  = [null_resource.batch]
   type        = "zip"
-  source_dir  = "../src/batch/package"
+  source_dir  = "../src/batch/packages"
   output_path = "batch.zip"
 }
 
@@ -120,7 +121,8 @@ resource "null_resource" "backend" {
     always_run = timestamp()
   }
   provisioner "local-exec" {
-    command = "pip install -r ../src/backend/requirements.txt -t ../src/backend/package && cp ../src/backend/lambda_function.py ../src/backend/package"
+    working_dir = "../src/backend"
+    command = "pip install -r requirements.txt -t packages && cp lambda_function.py packages"
   }
 }
 
@@ -128,7 +130,7 @@ resource "null_resource" "backend" {
 data "archive_file" "backend" {
   depends_on  = [null_resource.backend]
   type        = "zip"
-  source_dir  = "../src/backend/package"
+  source_dir  = "../src/backend/packages"
   output_path = "backend.zip"
 }
 
