@@ -1,4 +1,4 @@
-[![CD(Demo Env)](https://github.com/ymat19/WebNovelGrepper/actions/workflows/deploy.yml/badge.svg)](https://github.com/ymat19/WebNovelGrepper/actions/workflows/deploy.yml)
+[![CI/CD(Demo Env)](https://github.com/ymat19/WebNovelGrepper/actions/workflows/cicd.yml/badge.svg)](https://github.com/ymat19/WebNovelGrepper/actions/workflows/cicd.yml)
 
 # WebNovelGrepper
 
