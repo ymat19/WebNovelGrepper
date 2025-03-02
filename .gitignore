@@ -23,7 +23,7 @@ db/*.db-journal
 
 # AWS Lambda deployment packages
 **/*.zip
-**/package/
+**/packages/
 
 # Pytest and test artifacts
 **/.pytest_cache/
