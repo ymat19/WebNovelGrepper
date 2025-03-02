@@ -22,7 +22,7 @@ permissions:
   id-token: write
 
 jobs:
-  Test-Backend:
+  CI-Backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
       - name: Run tests
         run: pytest src/backend/tests
 
-  Test-Batch:
+  CI-Batch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,12 +50,7 @@ jobs:
       - name: Run tests
         run: pytest src/batch/tests
 
-  # Single deploy job since we're just deploying
-  CD:
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  CI-Front:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -69,6 +64,9 @@ jobs:
         run: npm install
       - name: Copy DemoData
         run: mkdir ./src/front/vite-project/public && cp ./.github/demoData/* ./src/front/vite-project/public/
+      - name: Run tests
+        working-directory: src/front/vite-project
+        run: npm run test
       - name: Build project
         working-directory: src/front/vite-project
         run: npm run build -- --mode demo --base /$(basename ${{ github.repository }})/
@@ -77,6 +75,21 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: front-artifact
+          path: './src/front/vite-project/dist'
+
+  CD:
+    needs: [CI-Backend, CI-Batch, CI-Front]
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: front-artifact
           path: './src/front/vite-project/dist'
       - name: Deploy to GitHub Pages
         id: deployment
