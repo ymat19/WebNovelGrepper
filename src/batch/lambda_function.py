@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 # 定数類
 load_dotenv()
-WORK_URLS: list[str] = os.environ.get("WORK_URLS").split(",")
+WORK_URLS: list[str] = os.environ.get("WORK_URLS", "").split(",")
 DFAULT_TARGET_RATE: int = 5
 TABLE_NAME: str = os.environ.get("TABLE_NAME")
 BUCKET_NAME: str = os.environ.get("BUCKET_NAME")
