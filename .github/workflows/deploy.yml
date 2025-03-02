@@ -1,9 +1,16 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: CD(Demo Env)
+name: CI/CD(Demo Env)
 
 on:
   # Runs on pushes targeting the default branch
   push:
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -14,14 +21,38 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
 jobs:
+  Test-Backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r src/backend/requirements-dev.txt
+      - name: Run tests
+        run: pytest src/backend/tests
+
+  Test-Batch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r src/batch/requirements-dev.txt
+      - name: Run tests
+        run: pytest src/batch/tests
+
   # Single deploy job since we're just deploying
-  deploy:
+  CD:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
