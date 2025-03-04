@@ -1,9 +1,7 @@
 import pytest
-import re
-import time
 from unittest.mock import patch, MagicMock
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 from batch.lambda_function import (
     get_root_element,
     get_all_li_elements,
@@ -285,20 +283,3 @@ def test_lambda_handler(
     # エピソード2話分 × 各話に2行(空文字は除外される) = 4アイテム
     # S3キャッシュ削除が呼ばれたこと
     mock_s3_bucket.objects.filter.assert_called_once_with(Prefix="cache/")
-
-
-###############################################################################
-# pytest 実行方法
-###############################################################################
-"""
-このテストファイルを保存したら、下記のように pytest を実行してください。
-
-# 例: test_lambda_handler.py があるディレクトリへ移動して
-pytest -v
-
-pytest のドキュメントはこちら:
-  https://docs.pytest.org/en/stable/
-
-また、unittest.mock のドキュメントはこちら:
-  https://docs.python.org/3/library/unittest.mock.html
-"""
