@@ -61,7 +61,7 @@ def get_episodes(
     acc: tuple[str, list[Episode]], li_element
 ) -> tuple[str, list[Episode]]:
     sub_title, episodes = acc
-    if "widget-toc-chapter" in li_element.get("class"):
+    if "widget-toc-chapter" in (li_element.get("class") or []):
         return (li_element.find("span").get_text(), episodes)
     else:
         number = li_element.find("span").get_text()
