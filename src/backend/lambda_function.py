@@ -68,8 +68,6 @@ def lambda_handler(event, context):
         hash_object.update(words_string.encode('utf-8'))
         words_hash: str = hash_object.hexdigest()
         s3 = boto3.client("s3")
-        print(f"Save to S3: {TABLE_NAME}")
-        print(f"Save to S3: {BUCKET_NAME}")
         s3.put_object(Bucket=BUCKET_NAME, Key=f"cache/{work_id}/{words_hash}.json", Body=json_string)
     else:
         print("Too large response. Not save to S3")
