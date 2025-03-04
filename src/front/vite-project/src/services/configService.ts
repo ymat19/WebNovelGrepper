@@ -10,9 +10,14 @@ export const getConfig = async (): Promise<ParsedConfig> => {
     throw new Error(`Failed to fetch: ${response.statusText}`);
   }
   const frontConfig: FrontConfig = await response.json();
+
+  return configFactory(frontConfig);
+};
+
+const configFactory = ( config: FrontConfig ) => {
   return {
-    ...frontConfig,
-    workUrlParsers: frontConfig.work_urls.split(",").map((url) => {
+    ...config,
+    workUrlParsers: config.work_urls.split(",").map((url) => {
       return {
         workId: url.split("/").reverse()[2],
         getEpisodeUrl: (episodeId: string) =>
@@ -20,4 +25,4 @@ export const getConfig = async (): Promise<ParsedConfig> => {
       };
     }),
   };
-};
+}
