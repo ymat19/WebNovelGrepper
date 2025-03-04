@@ -6,9 +6,6 @@ from boto3.dynamodb.conditions import Attr, ConditionBase
 from functools import reduce
 from typing import Generator
 
-TABLE_NAME: str = os.environ.get("TABLE_NAME")
-BUCKET_NAME: str = os.environ.get("BUCKET_NAME")
-
 # 注　ジェネレータなので使い切り
 def get_records(table, **kwargs) -> Generator[dict, None, None]:
     while True:
@@ -21,6 +18,9 @@ def get_records(table, **kwargs) -> Generator[dict, None, None]:
 
 
 def lambda_handler(event, context):
+    TABLE_NAME: str = os.environ.get("TABLE_NAME")
+    BUCKET_NAME: str = os.environ.get("BUCKET_NAME")
+
     query_params: dict = event.get("queryStringParameters", {})
     words_string: str = query_params.get("words", "")
     work_id: int = int(query_params.get("work_id", 0))
@@ -68,6 +68,8 @@ def lambda_handler(event, context):
         hash_object.update(words_string.encode('utf-8'))
         words_hash: str = hash_object.hexdigest()
         s3 = boto3.client("s3")
+        print(f"Save to S3: {TABLE_NAME}")
+        print(f"Save to S3: {BUCKET_NAME}")
         s3.put_object(Bucket=BUCKET_NAME, Key=f"cache/{work_id}/{words_hash}.json", Body=json_string)
     else:
         print("Too large response. Not save to S3")
