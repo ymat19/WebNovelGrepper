@@ -7,9 +7,9 @@ import {
 import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
-import { SearchResults, SearchResult } from "./components/SearchResults";
+import { SearchResults } from "./components/SearchResults";
 import { AboutDialog } from "./components/AboutDialog";
-import { WebSiteConfig } from "./types";
+import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
 

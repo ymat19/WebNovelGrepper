@@ -4,15 +4,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { LuExternalLink } from "react-icons/lu"
 import { useState } from "react";
 import HighlightedText from "./HighlightedText";
-
-export interface SearchResult {
-  body: string;
-  line: number;
-  number: string;
-  subtitle: string;
-  url: string;
-  episodeId: bigint;
-}
+import { SearchResult } from "../types";
 
 interface SearchResultsProps {
   results: SearchResult[];
