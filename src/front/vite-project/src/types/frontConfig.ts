@@ -16,7 +16,6 @@ export interface WorkUrlParser {
   getEpisodeUrl: (episodeId: string) => string;
 }
 
-
 // stateで持っておく設定値
 export interface WebSiteConfig extends RawConfig {
   workUrlParsers: WorkUrlParser[];
