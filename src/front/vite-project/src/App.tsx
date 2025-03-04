@@ -9,13 +9,13 @@ import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
 import { SearchResults, SearchResult } from "./components/SearchResults";
 import { AboutDialog } from "./components/AboutDialog";
-import { ParsedConfig } from "./types";
+import { WebSiteConfig } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [config, setConfig] = useState<ParsedConfig | null>(null);
+  const [config, setConfig] = useState<WebSiteConfig | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);

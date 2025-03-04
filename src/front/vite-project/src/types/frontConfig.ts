@@ -1,5 +1,5 @@
-// フロントエンドの設定のjson定義
-export interface FrontConfig {
+// json設定ファイルの型定義
+export interface RawConfig {
   api_endpoint_url: string;
   work_urls: string;
   title: string;
@@ -18,6 +18,6 @@ export interface WorkUrlParser {
 
 
 // stateで持っておく設定値
-export interface ParsedConfig extends FrontConfig {
+export interface WebSiteConfig extends RawConfig {
   workUrlParsers: WorkUrlParser[];
 }

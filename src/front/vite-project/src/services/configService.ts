@@ -1,6 +1,6 @@
-import { FrontConfig, ParsedConfig } from "../types";
+import { RawConfig, WebSiteConfig } from "../types";
 
-export const getConfig = async (): Promise<ParsedConfig> => {
+export const getConfig = async (): Promise<WebSiteConfig> => {
   const response = await fetch(
     `${
       import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL
@@ -9,12 +9,12 @@ export const getConfig = async (): Promise<ParsedConfig> => {
   if (!response.ok) {
     throw new Error(`Failed to fetch: ${response.statusText}`);
   }
-  const frontConfig: FrontConfig = await response.json();
+  const frontConfig: RawConfig = await response.json();
 
   return configFactory(frontConfig);
 };
 
-const configFactory = ( config: FrontConfig ) => {
+const configFactory = ( config: RawConfig ) => {
   return {
     ...config,
     workUrlParsers: config.work_urls.split(",").map((url) => {
