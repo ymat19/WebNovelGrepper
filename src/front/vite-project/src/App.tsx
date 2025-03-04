@@ -42,6 +42,7 @@ const App: React.FC = () => {
       const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
       setQuery(commaSeparatedQuery);
 
+      // 結局複数作品に対応してないので一番目を取る
       const workUrlParser = config.workUrlParsers[0];
       const records = await getRecords(commaSeparatedQuery, workUrlParser, config);
       const padding = 2;
