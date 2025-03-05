@@ -12,7 +12,7 @@ import { AboutDialog } from "./components/AboutDialog";
 import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
-import { search } from "./services/searchService";
+import { query, createQueryString, search } from "./services/searchService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -22,28 +22,26 @@ const App: React.FC = () => {
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    try {
-      getConfig().then((frontConfig) => {
-        document.title = frontConfig.title;
-        setConfig(frontConfig);
-      });
-    } catch (err) {
+    getConfig().then((frontConfig) => {
+      document.title = frontConfig.title;
+      setConfig(frontConfig);
+    }).catch((err) => {
       console.error(err);
-    }
+    });
   }, []);
 
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (input: string) => {
     try {
       if (!config) {
         return;
       }
       setIsLoading(true);
 
-      const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
-      setQuery(commaSeparatedQuery);
+      const queryString = createQueryString(input);
+      setQuery(queryString);
       
-      const results = await search(commaSeparatedQuery, config, getRecords);
+      const results = await search(queryString, config, getRecords);
       setResults(results);
     } catch (err) {
       console.error(err);

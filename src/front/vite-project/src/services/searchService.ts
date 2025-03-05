@@ -21,3 +21,5 @@ export const search = async (
     };
   });
 };
+
+export const createQueryString = (query: string): string => query.replace(/[\u3000\s]/g, ",");
