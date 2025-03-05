@@ -1,4 +1,4 @@
-import { RawConfig, Record, WorkUrlParser } from "../types";
+import { WebSiteConfig, Record, WorkUrlParser } from "../types";
 import * as CryptoJS from "crypto-js";
 
 const getRecordsFromStub = async (
@@ -6,7 +6,7 @@ const getRecordsFromStub = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _parser: WorkUrlParser,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _config: RawConfig
+  _config: WebSiteConfig
 ): Promise<Record[]> => {
   const queries = commaSeparatedQuery.split(",");
 
@@ -27,7 +27,7 @@ const getRecordsFromStub = async (
 const getRecordsFromAWS = async (
   commaSeparatedQuery: string,
   parser: WorkUrlParser,
-  config: RawConfig
+  config: WebSiteConfig
 ): Promise<Record[]> => {
   const hash = CryptoJS.SHA256(commaSeparatedQuery).toString(CryptoJS.enc.Hex);
 

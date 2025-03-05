@@ -12,6 +12,7 @@ import { AboutDialog } from "./components/AboutDialog";
 import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
+import { search } from "./services/searchService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -41,24 +42,8 @@ const App: React.FC = () => {
 
       const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
       setQuery(commaSeparatedQuery);
-
-      // 結局複数作品に対応してないので一番目を取る
-      const workUrlParser = config.workUrlParsers[0];
-      const records = await getRecords(commaSeparatedQuery, workUrlParser, config);
-      const padding = 2;
-      const results: SearchResult[] = records.map((record) => {
-        return {
-          body: record.body,
-          line: record.line,
-          number: record.number,
-          subtitle: record.sub_title,
-          url:
-            workUrlParser.getEpisodeUrl(record.episode_id) +
-            `#p${record.line < padding ? record.line : record.line - padding}`,
-          episodeId: BigInt(record.episode_id),
-        };
-      });
-
+      
+      const results = await search(commaSeparatedQuery, config, getRecords);
       setResults(results);
     } catch (err) {
       console.error(err);
