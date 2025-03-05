@@ -12,7 +12,7 @@ import { AboutDialog } from "./components/AboutDialog";
 import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
-import { query, createQueryString, search } from "./services/searchService";
+import { createQueryString, search } from "./services/searchService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
