@@ -9,7 +9,6 @@ const getRecordsFromStub = async (
   const queries = commaSeparatedQuery.split(",");
 
   const queryResponse = await fetch(`${import.meta.env.BASE_URL}/records.json`);
-
   if (queryResponse.ok) {
     const allRecords = await queryResponse.json();
     return allRecords.filter((record: Record) =>
@@ -24,7 +23,8 @@ const getRecordsFromStub = async (
 
 const getRecordsFromAWS = async (
   commaSeparatedQuery: string,
-  config: WebSiteConfig
+  config: WebSiteConfig,
+  retryInterval = 5000
 ): Promise<Record[]> => {
   const hash = CryptoJS.SHA256(commaSeparatedQuery).toString(CryptoJS.enc.Hex);
 
@@ -64,7 +64,7 @@ const getRecordsFromAWS = async (
     // 503系はタイムアウトだが、lambdaは走りっぱなしなので、リトライでキャッシュを回収しに行く
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ of Array(10).keys()) {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, retryInterval));
       const [hit, cache] = await getCache(hash);
       if (hit) return cache;
     }
@@ -74,5 +74,5 @@ const getRecordsFromAWS = async (
   return [];
 };
 
-export const getRecords =
-  import.meta.env.MODE === "demo" ? getRecordsFromStub : getRecordsFromAWS;
+export const getRecords = (isDemoMode: () => boolean) =>
+  isDemoMode() ? getRecordsFromStub : getRecordsFromAWS;
