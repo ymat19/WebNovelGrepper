@@ -17,12 +17,8 @@ export const getConfig = async (): Promise<WebSiteConfig> => {
 const configFactory = ( config: RawConfig ) => {
   return {
     ...config,
-    workUrlParsers: config.work_urls.split(",").map((url) => {
-      return {
-        workId: url.split("/").reverse()[2],
-        getEpisodeUrl: (episodeId: string) =>
-          url.split("/episodes/")[0] + `/episodes/${episodeId}`,
-      };
-    }),
+    workId: config.work_urls.split("/").reverse()[2],
+    getEpisodeUrl: (episodeId: string) =>
+      config.work_urls.split("/episodes/")[0] + `/episodes/${episodeId}`,
   };
 }

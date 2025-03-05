@@ -10,13 +10,8 @@ export interface RawConfig {
   contact_x: string;
 }
 
-// 作品URLを作ったりする
-export interface WorkUrlParser {
-  workId: string;
-  getEpisodeUrl: (episodeId: string) => string;
-}
-
 // stateで持っておく設定値
 export interface WebSiteConfig extends RawConfig {
-  workUrlParsers: WorkUrlParser[];
+  workId: string;
+  getEpisodeUrl: (episodeId: string) => string;
 }
