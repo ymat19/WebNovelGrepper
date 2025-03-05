@@ -7,72 +7,41 @@ import {
 import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
-import { SearchResults, SearchResult } from "./components/SearchResults";
+import { SearchResults } from "./components/SearchResults";
 import { AboutDialog } from "./components/AboutDialog";
-import { FrontConfig, ParsedConfig } from "./types";
+import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
+import { getConfig } from "./services/configService";
+import { createQueryString, search } from "./services/searchService";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [config, setConfig] = useState<ParsedConfig | null>(null);
+  const [config, setConfig] = useState<WebSiteConfig | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const diagButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    const loadConfig = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL}/front_config.json`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.statusText}`);
-        }
-        const frontConfig: FrontConfig = await response.json();
-        setConfig({
-          ...frontConfig,
-          workUrlParsers: frontConfig.work_urls.split(",").map((url) => {
-            return {
-              workId: url.split("/").reverse()[2],
-              getEpisodeUrl: (episodeId: string) =>
-                url.split("/episodes/")[0] + `/episodes/${episodeId}`,
-            };
-          }),
-        });
-
-        document.title = frontConfig.title;
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    loadConfig();
+    getConfig().then((frontConfig) => {
+      document.title = frontConfig.title;
+      setConfig(frontConfig);
+    }).catch((err) => {
+      console.error(err);
+    });
   }, []);
 
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (input: string) => {
     try {
       if (!config) {
         return;
       }
       setIsLoading(true);
 
-      const commaSeparatedQuery = query.replace(/[\u3000\s]/g, ",");
-      setQuery(commaSeparatedQuery);
-
-      const workUrlParser = config.workUrlParsers[0];
-      const records = await getRecords(commaSeparatedQuery, workUrlParser, config);
-      const padding = 2;
-      const results: SearchResult[] = records.map((record) => {
-        return {
-          body: record.body,
-          line: record.line,
-          number: record.number,
-          subtitle: record.sub_title,
-          url:
-            workUrlParser.getEpisodeUrl(record.episode_id) +
-            `#p${record.line < padding ? record.line : record.line - padding}`,
-          episodeId: BigInt(record.episode_id),
-        };
-      });
-
+      const queryString = createQueryString(input);
+      setQuery(queryString);
+      
+      const results = await search(queryString, config, getRecords);
       setResults(results);
     } catch (err) {
       console.error(err);

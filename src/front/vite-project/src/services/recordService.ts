@@ -1,12 +1,10 @@
-import { FrontConfig, Record, WorkUrlParser } from "../types";
+import { WebSiteConfig, Record} from "../types";
 import * as CryptoJS from "crypto-js";
 
 const getRecordsFromStub = async (
   commaSeparatedQuery: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _parser: WorkUrlParser,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _config: FrontConfig
+  _config: WebSiteConfig
 ): Promise<Record[]> => {
   const queries = commaSeparatedQuery.split(",");
 
@@ -26,15 +24,14 @@ const getRecordsFromStub = async (
 
 const getRecordsFromAWS = async (
   commaSeparatedQuery: string,
-  parser: WorkUrlParser,
-  config: FrontConfig
+  config: WebSiteConfig
 ): Promise<Record[]> => {
   const hash = CryptoJS.SHA256(commaSeparatedQuery).toString(CryptoJS.enc.Hex);
 
   // キャッシュ取得
   const getCache = async (hash: string): Promise<[boolean, Record[]]> => {
     try {
-      const cacheResponse = await fetch(`cache/${parser.workId}/${hash}.json`);
+      const cacheResponse = await fetch(`cache/${config.workId}/${hash}.json`);
       if (cacheResponse.ok) {
         return [true, await cacheResponse.json()];
       } else if (cacheResponse.status === 404 || cacheResponse.status === 403) {
@@ -58,7 +55,7 @@ const getRecordsFromAWS = async (
 
   // キャッシュがない場合 クエリを投げる
   const queryResponse = await fetch(
-    `${config?.api_endpoint_url}?work_id=${parser.workId}&words=${commaSeparatedQuery}`
+    `${config?.api_endpoint_url}?work_id=${config.workId}&words=${commaSeparatedQuery}`
   );
 
   if (queryResponse.ok) {

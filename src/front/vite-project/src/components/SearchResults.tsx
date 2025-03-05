@@ -4,15 +4,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { LuExternalLink } from "react-icons/lu"
 import { useState } from "react";
 import HighlightedText from "./HighlightedText";
-
-export interface SearchResult {
-  body: string;
-  line: number;
-  number: string;
-  subtitle: string;
-  url: string;
-  episodeId: bigint;
-}
+import { SearchResult } from "../types";
 
 interface SearchResultsProps {
   results: SearchResult[];
@@ -96,7 +88,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 mt={2}
                 color="#4A4A4A"
               ></HighlightedText>
-              <Link color="#8098FF" href={result.url} mt={2} target="_brank">
+              <Link color="#8098FF" href={result.url} mt={2} >
                 本編へ <LuExternalLink />
               </Link>
             </Box>
