@@ -1,10 +1,13 @@
 import { SearchResult } from "../types";
-import { WebSiteConfig ,Record } from "../types";
+import { WebSiteConfig, Record } from "../types";
 
 export const search = async (
   commaSeparatedQuery: string,
-  config : WebSiteConfig,
-  getRecords: (commaSeparatedQuery: string, config: WebSiteConfig) => Promise<Record[]>
+  config: WebSiteConfig,
+  getRecords: (
+    commaSeparatedQuery: string,
+    config: WebSiteConfig
+  ) => Promise<Record[]>
 ): Promise<SearchResult[]> => {
   const records = await getRecords(commaSeparatedQuery, config);
   const padding = 2;
@@ -22,4 +25,5 @@ export const search = async (
   });
 };
 
-export const createQueryString = (query: string): string => query.replace(/[\u3000\s]/g, ",");
+export const createQueryString = (query: string): string =>
+  query.replace(/[\u3000\s]/g, ",");

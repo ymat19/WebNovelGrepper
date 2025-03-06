@@ -13,6 +13,7 @@ import { WebSiteConfig, SearchResult } from "./types";
 import { getRecords } from "./services/recordService";
 import { getConfig } from "./services/configService";
 import { createQueryString, search } from "./services/searchService";
+import { isDemoMode } from "./utils/envChecker";
 
 const App: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -41,7 +42,7 @@ const App: React.FC = () => {
       const queryString = createQueryString(input);
       setQuery(queryString);
       
-      const results = await search(queryString, config, getRecords);
+      const results = await search(queryString, config, getRecords(isDemoMode));
       setResults(results);
     } catch (err) {
       console.error(err);
