@@ -1,4 +1,4 @@
-import { WebSiteConfig, Record} from "../types";
+import { WebSiteConfig, Record } from "../types";
 import * as CryptoJS from "crypto-js";
 
 const getRecordsFromStub = async (
@@ -44,7 +44,8 @@ const getRecordsFromAWS = async (
       // ローカルデバッグだとエラーのhtmlが返ってきてSyntaxError
       // Safariだとinstanceofがfalseになる
       const errObj = err as Error;
-      if (err instanceof SyntaxError || errObj.name === "SyntaxError") return [false, []];
+      if (err instanceof SyntaxError || errObj.name === "SyntaxError")
+        return [false, []];
       throw err;
     }
   };

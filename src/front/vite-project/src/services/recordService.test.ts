@@ -93,7 +93,9 @@ describe("getRecords (stub mode / demo mode)", () => {
     ]);
 
     // fetch が正しい URL を呼んだか
-    expect(global.fetch).toHaveBeenCalledWith(`${import.meta.env.BASE_URL}/records.json`);
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${import.meta.env.BASE_URL}/records.json`
+    );
   });
 
   test("fetch がエラー (ok=false) のときは空配列を返す", async () => {
@@ -132,7 +134,7 @@ describe("getRecords (AWS mode / production mode)", () => {
         json: async () => mockCache,
       },
     ]);
-    
+
     const query = "hello,world";
     const hash = CryptoJS.SHA256(query).toString(CryptoJS.enc.Hex);
 
@@ -141,7 +143,9 @@ describe("getRecords (AWS mode / production mode)", () => {
 
     // 1回だけキャッシュ取得
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(`cache/${dummyConfig.workId}/${hash}.json`);
+    expect(global.fetch).toHaveBeenCalledWith(
+      `cache/${dummyConfig.workId}/${hash}.json`
+    );
   });
 
   test("キャッシュがない場合、api_endpoint_url にクエリを投げて結果を返す (ok=true)", async () => {
