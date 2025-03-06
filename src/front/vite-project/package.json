@@ -22,7 +22,7 @@
     "react-toastify": "^11.0.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
+    "@eslint/js": "^9.21.0",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.10.7",
     "@types/react": "^18.3.12",
