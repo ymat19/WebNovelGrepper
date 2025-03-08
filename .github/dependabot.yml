@@ -3,12 +3,32 @@ updates:
   - package-ecosystem: "npm"
     directory: "/src/front/vite-project"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - '*'
   - package-ecosystem: "pip"
     directory: "/src/backend"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - '*'
   - package-ecosystem: "pip"
     directory: "/src/batch"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - '*'
+  - package-ecosystem: 'github-actions'
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - '*'
