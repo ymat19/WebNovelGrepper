@@ -89,7 +89,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 mt={2}
                 color="#4A4A4A"
               ></HighlightedText>
-              <Link color="#8098FF" href={result.url} mt={2} target="_brank">
+              <Link color="#8098FF" href={result.url} mt={2} target="_blank">
                 本編へ <LuExternalLink />
               </Link>
             </Box>
