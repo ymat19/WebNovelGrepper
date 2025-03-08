@@ -19,7 +19,7 @@ interface AboutDialogProps {
   technology_about: string;
   contact_email: string;
   contact_x: string;
-  buttonRef: React.RefObject<HTMLButtonElement>;
+  buttonRef: React.RefObject<HTMLButtonElement | null>;
   endpoint: string;
 }
 
@@ -29,7 +29,7 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
   contact_email,
   contact_x,
   buttonRef,
-  endpoint
+  endpoint,
 }) => {
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
