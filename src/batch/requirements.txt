@@ -1,6 +1,6 @@
 beautifulsoup4==4.13.3
-boto3==1.37.28
-botocore==1.37.28
+boto3==1.37.33
+botocore==1.37.33
 certifi==2025.1.31
 charset-normalizer==3.4.1
 idna==3.10
@@ -11,4 +11,4 @@ requests==2.32.3
 s3transfer==0.11.4
 six==1.17.0
 soupsieve==2.6
-urllib3==2.3.0
+urllib3==2.4.0
