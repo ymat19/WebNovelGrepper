@@ -17,7 +17,8 @@
       {
         packages.default = pkgs.mkShell {
           packages = with pkgs; [
-            python310
+            python313
+            python313Packages.pip
             nodejs_24
             terraform
           ];
