@@ -32,7 +32,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.13'
       - name: Install dependencies
         run: pip install -r src/backend/requirements-dev.txt
       - name: Run tests
@@ -46,7 +46,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.13'
       - name: Install dependencies
         run: pip install -r src/batch/requirements-dev.txt
       - name: Run tests

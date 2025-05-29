@@ -80,7 +80,7 @@ resource "aws_lambda_function" "batch" {
   function_name    = "batch"
   role             = aws_iam_role.lambda_role.arn
   handler          = "lambda_function.lambda_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.13"
   filename         = data.archive_file.batch.output_path
   source_code_hash = data.archive_file.batch.output_base64sha256
   timeout          = 900
@@ -141,7 +141,7 @@ resource "aws_lambda_function" "backend" {
   function_name    = "backend"
   role             = aws_iam_role.lambda_role.arn
   handler          = "lambda_function.lambda_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.13"
   filename         = data.archive_file.backend.output_path
   source_code_hash = data.archive_file.backend.output_base64sha256
   timeout          = 120
