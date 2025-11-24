@@ -135,7 +135,7 @@ def lambda_handler(event, context):
 
         def get_records(acc: list[Record], episode: Episode) -> list[Record]:
             # ちょっと待つ
-            time.sleep(0.5)
+            time.sleep(2.0)
             # display progress
             print(f"Processing {episode.number}")
             # linesを取得し、episode左結合 累積リストに追加　(空行は無視)
