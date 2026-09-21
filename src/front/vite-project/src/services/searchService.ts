@@ -20,7 +20,6 @@ export const search = async (
       url:
         config.getEpisodeUrl(record.episode_id) +
         `#p${record.line < padding ? record.line : record.line - padding}`,
-      episodeId: BigInt(record.episode_id),
     };
   });
 };

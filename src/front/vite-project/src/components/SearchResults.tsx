@@ -23,13 +23,13 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     return <Text color="gray.500">検索結果がありません。</Text>;
   }
 
-  const sortFunc = (a: SearchResult, b: SearchResult) => {
-    if (isAscending) {
-      return Number(a.episodeId - b.episodeId);
-    } else {
-      return Number(b.episodeId - a.episodeId);
-    }
-  };
+  const filteredResults = results.filter(
+    (result) => !isDialogueOnly || result.body.startsWith("「")
+  );
+  // 並び順の正解はバックエンドが持っているので、ここではソートし直さず向きだけ反転させる
+  const displayResults = isAscending
+    ? filteredResults
+    : [...filteredResults].reverse();
 
   return (
     <>
@@ -63,37 +63,34 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
       <br />
       <Text color="#2C3E50">{results.length}件見つかりました</Text>
       <VStack align="stretch">
-        {[...results]
-          .filter((result) => !isDialogueOnly || result.body.startsWith("「"))
-          .sort(sortFunc)
-          .map((result, index) => (
-            <Box
-              key={index}
-              borderWidth="1px"
-              borderRadius="md"
-              p={4}
-              shadow="sm"
-              borderColor="#C4A68A"
-              bg="#F1E7DA"
-              _hover={{ shadow: "md" }}
-            >
-              <Text fontWeight="bold" color="#6E4A34">
-                {result.subtitle}
-                <br />
-                {result.number && `${result.number}: `}
-                {result.line}行
-              </Text>
-              <HighlightedText
-                text={result.body}
-                highlights={query.split(",")}
-                mt={2}
-                color="#4A4A4A"
-              ></HighlightedText>
-              <Link color="#8098FF" href={result.url} mt={2} target="_blank">
-                本編へ <LuExternalLink />
-              </Link>
-            </Box>
-          ))}
+        {displayResults.map((result, index) => (
+          <Box
+            key={index}
+            borderWidth="1px"
+            borderRadius="md"
+            p={4}
+            shadow="sm"
+            borderColor="#C4A68A"
+            bg="#F1E7DA"
+            _hover={{ shadow: "md" }}
+          >
+            <Text fontWeight="bold" color="#6E4A34">
+              {result.subtitle}
+              <br />
+              {result.number && `${result.number}: `}
+              {result.line}行
+            </Text>
+            <HighlightedText
+              text={result.body}
+              highlights={query.split(",")}
+              mt={2}
+              color="#4A4A4A"
+            ></HighlightedText>
+            <Link color="#8098FF" href={result.url} mt={2} target="_blank">
+              本編へ <LuExternalLink />
+            </Link>
+          </Box>
+        ))}
       </VStack>
     </>
   );

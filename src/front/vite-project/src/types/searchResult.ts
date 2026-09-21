@@ -5,5 +5,4 @@ export interface SearchResult {
   number: string;
   subtitle: string;
   url: string;
-  episodeId: bigint;
 }

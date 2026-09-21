@@ -2,6 +2,7 @@ import boto3
 import json
 import hashlib
 import os
+import re
 from boto3.dynamodb.conditions import Attr, ConditionBase
 from functools import reduce
 from typing import Generator
@@ -15,6 +16,12 @@ def get_records(table, **kwargs) -> Generator[dict, None, None]:
         if "LastEvaluatedKey" not in response:
             break
         kwargs.update(ExclusiveStartKey=response["LastEvaluatedKey"])
+
+
+# 話数順に並べるためのキー
+def episode_sort_key(record: dict) -> tuple[int, int]:
+    matched = re.search(r"\d+", record["number"])
+    return (int(matched.group()) if matched else 0, int(record["line"]))
 
 
 def lambda_handler(event, context):
@@ -52,9 +59,9 @@ def lambda_handler(event, context):
         dynamodb.Table(TABLE_NAME), FilterExpression=combined_condition
     )
 
-    sorted_records: list[dict] = sorted(
-        records, key=lambda record: f"{record['episode_id']}{record['line']:04}"
-    )
+    # episode_id は使わない。取得元の採番方式が途中で変わり、
+    # 新しい話のIDが古い話より小さくなる（桁数も不揃い）ため投稿順と一致しない。
+    sorted_records: list[dict] = sorted(records, key=episode_sort_key)
 
     # 作品ID、話数IDがjsのnumberで扱いきれないのでDBのNumberは全部文字列にしてしまう
     json_string = json.dumps(sorted_records, default=lambda obj: str(obj))

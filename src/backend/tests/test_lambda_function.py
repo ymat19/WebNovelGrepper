@@ -57,6 +57,32 @@ def test_request_present(mock_boto3_client, mock_boto3_resource):
 
 @patch("boto3.resource")
 @patch("boto3.client")
+def test_sorted_by_episode_number(mock_boto3_client, mock_boto3_resource):
+    """
+    episode_idが投稿順になっていない作品でも、話数の昇順で返ること。
+    """
+    mock_table = MagicMock()
+    mock_table.scan.return_value = {
+        "Items": [
+            {"episode_id": "822139836818783324", "number": "第395話", "line": 1, "body": "テスト"},
+            {"episode_id": "16818792440455914559", "number": "第393話", "line": 1, "body": "テスト"},
+            {"episode_id": "2912051595960742505", "number": "第412話", "line": 1, "body": "テスト"},
+        ]
+    }
+    mock_boto3_resource.return_value.Table.return_value = mock_table
+    mock_boto3_client.return_value = MagicMock()
+
+    event = {"queryStringParameters": {"words": "テスト", "work_id": "123"}}
+
+    response = lambda_handler(event, None)
+    assert response["statusCode"] == 200
+
+    body = json.loads(response["body"])
+    assert [record["number"] for record in body] == ["第393話", "第395話", "第412話"]
+
+
+@patch("boto3.resource")
+@patch("boto3.client")
 def test_normal_case(mock_boto3_client, mock_boto3_resource):
     """
     通常ケース: 
@@ -69,8 +95,8 @@ def test_normal_case(mock_boto3_client, mock_boto3_resource):
     # scan が1回だけ呼ばれる -> LastEvaluatedKey は返さずループ終了
     mock_table.scan.return_value = {
         "Items": [
-            {"episode_id": "1", "line": 10, "body": "テスト"},
-            {"episode_id": "1", "line": 2,  "body": "サンプル"},
+            {"episode_id": "1", "number": "第1話", "line": 10, "body": "テスト"},
+            {"episode_id": "1", "number": "第1話", "line": 2,  "body": "サンプル"},
         ]
         # "LastEvaluatedKey": ... を返さない
     }
@@ -121,7 +147,7 @@ def test_too_large_response_under_50mb(mock_boto3_client, mock_boto3_resource):
     mock_table = MagicMock()
     mock_table.scan.return_value = {
         "Items": [
-            {"episode_id": "1", "line": 1, "body": large_body}
+            {"episode_id": "1", "number": "第1話", "line": 1, "body": large_body}
         ]
     }
     mock_boto3_resource.return_value.Table.return_value = mock_table
@@ -159,7 +185,7 @@ def test_over_50mb_response(mock_boto3_client, mock_boto3_resource):
     mock_table = MagicMock()
     mock_table.scan.return_value = {
         "Items": [
-            {"episode_id": "1", "line": 1, "body": large_body}
+            {"episode_id": "1", "number": "第1話", "line": 1, "body": large_body}
         ]
     }
     mock_boto3_resource.return_value.Table.return_value = mock_table
