@@ -65,7 +65,6 @@ describe("search function", () => {
       number: "101",
       subtitle: "sub1",
       url: "https://example.com/episodes/10#p1", // line < padding(2)のためそのまま1
-      episodeId: BigInt(10),
     });
     // 2つめの要素の検証
     expect(result[1]).toEqual({
@@ -74,7 +73,6 @@ describe("search function", () => {
       number: "102",
       subtitle: "sub2",
       url: "https://example.com/episodes/11#p3", // line(5) > padding(2)なので line - padding => 3
-      episodeId: BigInt(11),
     });
   });
 
